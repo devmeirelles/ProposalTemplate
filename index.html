@@ -2,702 +2,862 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Proposta GAMA — WebFrequency</title>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposta — GAMA Transportes</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
 
-/* ── RESET & BASE ── */
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
+/* ════════════════════════════════════
+   TOKENS — paleta refinada
+   Base: branco / cinza muito claro
+   Acento: verde escuro corporativo + neon pontual
+   Tipografia escura, séria
+════════════════════════════════════ */
 :root {
-  --bg:       #080808;
-  --surface:  #0C0C0C;
-  --surface2: #141414;
-  --border:   #1C1C1C;
-  --gray-d:   #2A2A2A;
-  --gray-m:   #666666;
-  --gray-l:   #999999;
-  --white:    #F0F0F0;
-  --neon:     #39FF14;
-  --amber:    #FFD600;
-  --neon-dk:  #065200;
-  --red:      #A32D2D;
-  --green-dk: #071a04;
+  --bg:        #F8F9F7;       /* quase branco — fundo limpo */
+  --bg2:       #F0F2EE;       /* superfície levemente off-white */
+  --ink:       #0D0D0D;       /* preto tipográfico */
+  --ink2:      #2C2C2C;       /* cinza escuro — corpo */
+  --ink3:      #666;          /* cinza médio — suporte */
+  --ink4:      #A0A0A0;       /* cinza claro — hint */
+  --green:     #1A3A1F;       /* verde corporativo escuro */
+  --green-m:   #2D5C35;       /* verde médio */
+  --green-l:   #4A8C55;       /* verde claro */
+  --neon:      #39FF14;       /* neon — só pontos de tensão */
+  --neon-dk:   #065200;
+  --border:    #E0E4DC;       /* borda suave */
+  --border2:   #CBD0C5;       /* borda média */
+  --amber:     #C8860A;       /* âmbar refinado */
+  --white:     #FFFFFF;
+  --red-soft:  #8B2020;
 }
 
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
 body {
-  background: var(--bg);
-  font-family: 'Share Tech Mono', monospace;
-  color: var(--white);
-  font-size: 11px;
+  background: #E8EAE4;
+  font-family: 'Rajdhani', sans-serif;
+  color: var(--ink);
 }
 
 /* ── PÁGINA ── */
 .page {
   width: 210mm;
   min-height: 297mm;
-  margin: 0 auto;
   background: var(--bg);
+  margin: 0 auto 16px;
   position: relative;
   overflow: hidden;
   page-break-after: always;
+  box-shadow: 0 4px 40px rgba(0,0,0,.15);
 }
 
-/* Barra lateral verde escura */
-.page::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 8px;
-  height: calc(100% - 42px);
-  background: var(--green-dk);
-  z-index: 1;
+@media print {
+  body { background: var(--bg) !important; }
+  .page { box-shadow: none; margin: 0; page-break-after: always; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
 
 /* ── HEADER ── */
 .header {
-  background: var(--surface);
-  height: 42px;
+  height: 52px;
+  background: var(--green);
   display: flex;
   align-items: center;
-  padding: 0 20px;
-  gap: 12px;
+  justify-content: space-between;
+  padding: 0 28px;
   position: relative;
-  border-bottom: 2px solid var(--neon);
 }
 
-.header-logo {
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--neon) 0%, var(--neon) 40%, transparent 100%);
+}
+
+.header-brand {
   display: flex;
   align-items: flex-end;
-  gap: 3px;
-  flex-shrink: 0;
+  gap: 4px;
 }
 
-.header-logo svg { display: block; }
+.header-brand svg { display: block; }
 
-.neon-dot {
+.brand-dot {
   width: 5px; height: 5px;
   background: var(--neon);
-  margin-bottom: 4px;
+  margin-bottom: 5px;
   flex-shrink: 0;
 }
 
-.co {
+.brand-co {
   font-family: 'Rajdhani', sans-serif;
   font-weight: 300;
-  font-size: 20px;
-  color: var(--white);
+  font-size: 26.8px;
+  color: #fff;
   line-height: 1;
   letter-spacing: 2px;
 }
 
-.header-sep {
-  width: 1px; height: 24px;
-  background: var(--border);
-  flex-shrink: 0;
+.header-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.header-wf { flex: 1; }
-.header-wf .web { font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 700; color: var(--white); }
-.header-wf .freq { font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 700; color: var(--neon); }
-.header-wf .sub { font-size: 7px; color: var(--gray-m); margin-top: 2px; }
+.header-wf-w { font-family: 'Orbitron', sans-serif; font-size: 14.6px; font-weight: 700; color: #fff; letter-spacing: 1px; }
+.header-wf-f { font-family: 'Orbitron', sans-serif; font-size: 14.6px; font-weight: 700; color: var(--neon); letter-spacing: 1px; }
 
-.header-page {
-  font-size: 8px;
-  color: var(--gray-d);
-  margin-left: auto;
-}
+.header-sep { width: 1px; height: 20px; background: rgba(255,255,255,.15); }
 
-/* ── CONTEÚDO ── */
-.content {
-  padding: 24px 28px 28px 36px;
-}
+.header-sub { font-family: 'Share Tech Mono', monospace; font-size: 11.0px; color: rgba(255,255,255,.35); letter-spacing: 2px; }
+
+.header-page { font-family: 'Share Tech Mono', monospace; font-size: 11.0px; color: rgba(255,255,255,.3); }
 
 /* ── FOOTER ── */
 .footer {
-  background: var(--surface);
-  border-top: 1px solid var(--neon);
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 7px;
-  color: var(--gray-d);
   position: absolute;
   bottom: 0; left: 0; right: 0;
+  height: 28px;
+  background: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
 }
 
-/* ── SEÇÃO ── */
-.section-label {
-  font-size: 8px;
-  letter-spacing: 3px;
-  color: var(--neon);
-  margin-bottom: 4px;
-}
-
-.section-title {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--white);
-  margin-bottom: 8px;
-}
-
-.section-divider {
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
   height: 1px;
-  background: var(--border);
+  background: rgba(57,255,20,.3);
+}
+
+.footer-left { font-family: 'Share Tech Mono', monospace; font-size: 10.4px; color: rgba(255,255,255,.25); letter-spacing: 2px; }
+.footer-right { font-family: 'Share Tech Mono', monospace; font-size: 10.4px; color: rgba(255,255,255,.25); }
+
+/* ── CONTEÚDO ── */
+.content { padding: 28px 32px 50px 32px; }
+
+/* ── SECTION TITLE ── */
+.sec {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   margin-bottom: 18px;
 }
 
-/* ── CARDS ── */
+.sec-num {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12.2px;
+  color: var(--neon);
+  background: var(--green);
+  padding: 3px 7px;
+  border-radius: 2px;
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+
+.sec-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18.3px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: .5px;
+}
+
+.sec-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── CARD ── */
 .card {
-  background: var(--surface);
-  border: 0.5px solid var(--border);
+  background: var(--white);
+  border: 1px solid var(--border);
   border-radius: 4px;
-  padding: 16px;
-}
-
-.card-neon {
-  border-color: var(--neon);
-}
-
-.card-red {
-  border-color: #3a0a0a;
-  border-left: 3px solid var(--red);
+  padding: 16px 18px;
 }
 
 .card-green {
-  background: var(--green-dk);
-  border-color: var(--neon);
+  background: var(--green);
+  border-color: var(--green-m);
 }
 
-/* ── GRID ── */
-.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-/* ── BADGE ── */
-.badge {
-  display: inline-block;
-  background: var(--neon);
-  color: var(--bg);
-  font-size: 7px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  padding: 2px 10px;
-  border-radius: 3px;
+.card-accent {
+  border-left: 3px solid var(--green-m);
+  border-radius: 0 4px 4px 0;
 }
 
-.badge-amber {
-  background: var(--amber);
-  color: var(--bg);
+.card-warn {
+  border-left: 3px solid var(--red-soft);
+  border-radius: 0 4px 4px 0;
 }
 
-/* ── BULLET NEON ── */
-.bullet {
-  display: flex;
-  gap: 8px;
-  align-items: flex-start;
-  margin-bottom: 10px;
-}
-.bullet-dot {
-  width: 3px; height: 3px;
-  background: var(--neon);
-  flex-shrink: 0;
-  margin-top: 5px;
-}
-.bullet-text strong {
-  display: block;
-  color: var(--white);
-  font-size: 8.5px;
-  margin-bottom: 2px;
-}
-.bullet-text span {
-  color: var(--gray-m);
-  font-size: 7.5px;
-}
+/* ── GRIDS ── */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
 
-/* ── EQUALIZER ── */
-.eq {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 4px;
-  height: 32px;
-  margin-bottom: 12px;
-}
-.eq-bar { border-radius: 1px 1px 0 0; }
+/* ── BULLET ── */
+.bullet { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+.b-dot { width: 4px; height: 4px; background: var(--green-m); flex-shrink: 0; margin-top: 6px; border-radius: 0; }
+.b-dot.red { background: var(--red-soft); }
+.b-body strong { display: block; font-weight: 700; font-size: 14.6px; color: var(--ink); margin-bottom: 1px; }
+.b-body span { font-size: 13.4px; color: var(--ink3); line-height: 1.5; }
 
-/* ── PLANO CARD ── */
-.plan-card {
-  background: var(--surface);
-  border: 0.5px solid var(--border);
+/* ── PLAN CARD ── */
+.plan {
+  background: var(--white);
+  border: 1px solid var(--border);
   border-radius: 4px;
   overflow: hidden;
-  position: relative;
 }
-.plan-card.featured { border-color: var(--neon); border-width: 1.5px; }
-.plan-top { height: 4px; background: var(--border); }
-.plan-card.featured .plan-top { background: var(--neon); }
-.plan-body { padding: 12px 14px; }
-.plan-name { font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 700; color: var(--gray-l); margin-bottom: 8px; text-align: center; }
-.plan-card.featured .plan-name { color: var(--white); }
-.plan-price { font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 900; color: var(--white); text-align: center; margin-bottom: 2px; }
-.plan-card.featured .plan-price { color: var(--neon); }
-.plan-monthly { font-size: 7px; color: var(--gray-m); text-align: center; margin-bottom: 10px; }
-.plan-divider { height: 0.5px; background: var(--border); margin-bottom: 10px; }
-.plan-item { display: flex; gap: 6px; align-items: flex-start; margin-bottom: 7px; font-size: 7.5px; }
-.plan-item-dot { width: 3px; height: 3px; background: var(--neon); flex-shrink: 0; margin-top: 4px; }
-.plan-card:not(.featured) .plan-item { color: var(--gray-l); }
-.plan-card.featured .plan-item { color: var(--white); }
 
-/* ── ETAPA ── */
-.step-card {
-  background: var(--surface);
-  border: 0.5px solid var(--border);
-  border-radius: 4px;
-  padding: 12px 10px;
+.plan.featured {
+  border-color: var(--green-m);
+  border-width: 1.5px;
 }
-.step-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+
+.plan-band { height: 4px; background: var(--border2); }
+.plan.featured .plan-band { background: var(--green-m); }
+
+.plan-body { padding: 14px 14px 16px; }
+
+.plan-badge {
+  display: inline-block;
+  background: var(--green);
+  color: var(--neon);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10.4px;
+  letter-spacing: 2px;
+  padding: 3px 9px;
+  border-radius: 2px;
+  margin-bottom: 8px;
+}
+
+.plan-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 13.4px;
+  font-weight: 700;
+  color: var(--ink3);
+  margin-bottom: 6px;
+  letter-spacing: .5px;
+}
+
+.plan.featured .plan-name { color: var(--ink2); }
+
+.plan-price {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 31.7px;
+  font-weight: 900;
+  color: var(--ink);
+  margin-bottom: 2px;
+  letter-spacing: -1px;
+}
+
+.plan.featured .plan-price { color: var(--green); }
+
+.plan-monthly { font-size: 11.6px; color: var(--ink4); margin-bottom: 10px; }
+
+.plan-div { height: 1px; background: var(--border); margin-bottom: 10px; }
+
+.plan-item {
+  display: flex; gap: 7px; align-items: flex-start;
+  font-size: 12.2px; margin-bottom: 6px; color: var(--ink3);
+}
+.plan.featured .plan-item { color: var(--ink2); }
+.pi-dot { width: 3px; height: 3px; background: var(--green-l); flex-shrink: 0; margin-top: 4px; }
+
+/* ── STEP ── */
+.step {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 12px;
+}
+
+.step-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+
 .step-num {
-  width: 22px; height: 22px; border-radius: 50%;
+  width: 24px; height: 24px;
+  border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 8px; font-weight: bold;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9.8px; font-weight: bold;
   flex-shrink: 0;
 }
-.step-num.neon { background: var(--neon); color: var(--bg); }
-.step-num.white { background: var(--white); color: var(--bg); }
-.step-num.gray { background: var(--gray-m); color: var(--bg); }
+
+.sn-green { background: var(--green); color: var(--neon); }
+.sn-light { background: var(--bg2); color: var(--ink2); border: 1px solid var(--border2); }
+
 .step-prazo {
-  background: var(--border);
-  border-radius: 3px;
-  padding: 2px 8px;
-  font-size: 6.5px;
-  color: var(--gray-m);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11.0px; color: var(--ink4);
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 2px 7px; border-radius: 2px;
 }
-.step-title { font-size: 9px; font-weight: bold; color: var(--white); margin-bottom: 6px; }
-.step-divider { height: 0.5px; background: var(--border); margin-bottom: 7px; }
-.step-desc { font-size: 7.5px; color: var(--gray-l); line-height: 1.7; }
+
+.step-title { font-family: 'Orbitron', sans-serif; font-size: 13.4px; font-weight: 700; color: var(--ink); margin-bottom: 5px; }
+.step-div { height: 1px; background: var(--border); margin-bottom: 7px; }
+.step-desc { font-size: 12.2px; color: var(--ink3); line-height: 1.7; }
+
+/* ── METRICS ── */
+.metric {
+  text-align: center;
+  padding: 14px 8px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+.metric-val {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 29.3px; font-weight: 900;
+  color: var(--green);
+  margin-bottom: 3px;
+}
+.metric-label { font-size: 11.6px; color: var(--ink3); letter-spacing: 1px; }
 
 /* ── CTA ── */
 .cta {
-  background: var(--surface);
-  border: 1px solid var(--neon);
+  background: var(--green);
   border-radius: 6px;
-  padding: 24px;
+  padding: 28px 32px;
   text-align: center;
-  border-top: 2px solid var(--neon);
+  position: relative;
+  overflow: hidden;
 }
-.cta-title { font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
-.cta-sub { font-size: 8.5px; color: var(--gray-l); margin-bottom: 18px; }
+
+.cta::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--neon), transparent);
+}
+
+/* Grade sutil no CTA */
+.cta::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(57,255,20,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(57,255,20,.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+
+.cta-content { position: relative; z-index: 1; }
+
+.cta-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 24.4px; font-weight: 900;
+  color: #fff;
+  margin-bottom: 8px;
+  letter-spacing: .5px;
+}
+
+.cta-sub { font-size: 14.0px; color: rgba(255,255,255,.55); margin-bottom: 20px; line-height: 1.6; }
+
 .cta-btn {
   display: inline-block;
   background: var(--neon);
-  color: var(--bg);
+  color: var(--green);
   font-family: 'Orbitron', sans-serif;
-  font-size: 9px;
-  font-weight: 700;
-  padding: 10px 32px;
-  border-radius: 20px;
-  letter-spacing: 1px;
-  margin-bottom: 12px;
+  font-size: 13.4px; font-weight: 900;
+  padding: 11px 32px;
+  border-radius: 2px;
+  letter-spacing: 2px;
+  margin-bottom: 14px;
 }
-.cta-contact { font-size: 7px; color: var(--gray-d); }
 
-/* ── PRINT ── */
-@media print {
-  body { background: var(--bg) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .page { page-break-after: always; margin: 0; width: 210mm; min-height: 297mm; }
-}
+.cta-contact { font-family: 'Share Tech Mono', monospace; font-size: 11.0px; color: rgba(255,255,255,.2); }
+
+/* ── EQUALIZER decorativo ── */
+.eq { display: flex; align-items: flex-end; gap: 3px; }
+.eq-bar { border-radius: 1px 1px 0 0; }
+
+/* ── SPACER ── */
+.sp8  { height: 8px; }
+.sp12 { height: 12px; }
+.sp18 { height: 18px; }
+.sp24 { height: 24px; }
 
 </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════ -->
-<!-- PÁGINA 1 — CAPA                   -->
-<!-- ══════════════════════════════════ -->
-<div class="page" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; gap:0; padding:0;">
+<!-- ══════════════════════════════════════════
+     PÁGINA 1 — CAPA
+══════════════════════════════════════════ -->
+<div class="page" style="display:flex;flex-direction:column;justify-content:space-between;min-height:297mm;">
 
-  <!-- Linha neon topo -->
-  <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--neon);"></div>
-
-  <!-- Logo MeiCo -->
-  <div style="margin-bottom:6px;">
-    <div style="display:inline-flex;align-items:flex-end;gap:4px;">
-      <svg width="56" height="56" viewBox="0 0 62 62" fill="none">
-        <line x1="10" y1="54" x2="10" y2="10" stroke="#F0F0F0" stroke-width="4" stroke-linecap="square"/>
-        <line x1="10" y1="10" x2="31" y2="38" stroke="#F0F0F0" stroke-width="4" stroke-linecap="square"/>
-        <line x1="31" y1="38" x2="52" y2="10" stroke="#F0F0F0" stroke-width="4" stroke-linecap="square"/>
-        <line x1="52" y1="10" x2="52" y2="54" stroke="#F0F0F0" stroke-width="4" stroke-linecap="square"/>
-      </svg>
-      <div style="width:7px;height:7px;background:var(--neon);margin-bottom:12px;flex-shrink:0;"></div>
-      <span style="font-family:'Rajdhani',sans-serif;font-weight:300;font-size:50px;color:var(--white);line-height:1;letter-spacing:2px;">Co</span>
-    </div>
-  </div>
-
-  <div style="font-size:7px;letter-spacing:5px;color:var(--gray-d);margin-bottom:16px;">// meirelles company — technology &amp; ventures</div>
-
-  <div style="width:260px;height:1px;background:var(--border);margin-bottom:16px;"></div>
-
-  <!-- Equalizador -->
-  <div class="eq" style="margin-bottom:10px;">
-    <div class="eq-bar" style="width:8px;height:10px;background:#1a1a1a;"></div>
-    <div class="eq-bar" style="width:8px;height:16px;background:#242424;"></div>
-    <div class="eq-bar" style="width:9px;height:28px;background:var(--neon);opacity:.9;"></div>
-    <div class="eq-bar" style="width:8px;height:18px;background:var(--neon);opacity:.6;"></div>
-    <div class="eq-bar" style="width:9px;height:10px;background:var(--neon);opacity:.35;"></div>
-    <div class="eq-bar" style="width:8px;height:18px;background:var(--neon);opacity:.6;"></div>
-    <div class="eq-bar" style="width:9px;height:28px;background:var(--neon);opacity:.9;"></div>
-    <div class="eq-bar" style="width:8px;height:16px;background:#242424;"></div>
-    <div class="eq-bar" style="width:8px;height:10px;background:#1a1a1a;"></div>
-  </div>
-
-  <!-- WebFrequency -->
-  <div style="margin-bottom:6px;">
-    <span style="font-family:'Orbitron',sans-serif;font-weight:900;font-size:26px;color:var(--white);letter-spacing:1px;">Web</span><span style="font-family:'Orbitron',sans-serif;font-weight:900;font-size:26px;color:var(--neon);letter-spacing:1px;">Frequency</span>
-  </div>
-  <div style="font-size:7px;letter-spacing:4px;color:var(--gray-m);margin-bottom:20px;">sites &amp; presença digital</div>
-
-  <!-- Card proposta -->
-  <div style="background:var(--surface);border:0.5px solid var(--border);border-radius:4px;padding:24px 40px;width:440px;position:relative;">
-    <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--neon);border-radius:4px 4px 0 0;"></div>
-    <div style="font-size:8px;letter-spacing:3px;color:var(--gray-m);margin-bottom:6px;">proposta comercial</div>
-    <div style="font-family:'Orbitron',sans-serif;font-size:20px;font-weight:900;color:var(--white);margin-bottom:4px;">GAMA Transportes</div>
-    <div style="font-size:9px;color:var(--gray-l);margin-bottom:14px;">Criacao de Site Institucional Profissional</div>
-    <div style="height:1px;background:var(--border);margin-bottom:14px;"></div>
-    <div style="display:flex;justify-content:space-between;">
-      <div>
-        <div style="font-size:7px;color:var(--gray-m);">Emitido por</div>
-        <div style="font-size:8.5px;color:var(--white);">WebFrequency / MeiCo</div>
-      </div>
-      <div style="text-align:right;">
-        <div style="font-size:7px;color:var(--gray-m);">Data</div>
-        <div style="font-size:8.5px;color:var(--white);">Abril / 2026</div>
-      </div>
-    </div>
-    <div style="margin-top:14px;text-align:center;">
-      <span class="badge">VALIDADE: 15 DIAS</span>
-    </div>
-  </div>
-
-  <!-- Footer capa -->
-  <div style="position:absolute;bottom:0;left:0;right:0;height:30px;background:var(--surface);border-top:1px solid var(--neon);display:flex;align-items:center;justify-content:center;">
-    <span style="font-size:7px;color:var(--gray-d);">WebFrequency — Meirelles Web Solutions  |  uma empresa MeiCo</span>
-  </div>
-</div>
-
-
-<!-- ══════════════════════════════════ -->
-<!-- PÁGINA 2 — PROBLEMA + SOLUÇÃO     -->
-<!-- ══════════════════════════════════ -->
-<div class="page">
+  <!-- Header -->
   <div class="header">
-    <div class="header-logo">
-      <svg width="22" height="22" viewBox="0 0 62 62" fill="none">
+    <div class="header-brand">
+      <svg width="20" height="20" viewBox="0 0 62 62" fill="none">
         <line x1="10" y1="54" x2="10" y2="10" stroke="#F0F0F0" stroke-width="5" stroke-linecap="square"/>
         <line x1="10" y1="10" x2="31" y2="38" stroke="#F0F0F0" stroke-width="5" stroke-linecap="square"/>
         <line x1="31" y1="38" x2="52" y2="10" stroke="#F0F0F0" stroke-width="5" stroke-linecap="square"/>
         <line x1="52" y1="10" x2="52" y2="54" stroke="#F0F0F0" stroke-width="5" stroke-linecap="square"/>
       </svg>
-      <div class="neon-dot"></div>
-      <span class="co">Co</span>
+      <div class="brand-dot"></div>
+      <span class="brand-co">Co</span>
     </div>
-    <div class="header-sep"></div>
-    <div class="header-wf">
-      <div><span class="web">Web</span><span class="freq">Frequency</span></div>
-      <div class="sub">sites &amp; presença digital</div>
+    <div class="header-center">
+      <span class="header-wf-w">Web</span><span class="header-wf-f">Frequency</span>
+      <div class="header-sep"></div>
+      <span class="header-sub">sites & presença digital</span>
+    </div>
+    <div class="header-page">01</div>
+  </div>
+
+  <!-- HERO DA CAPA -->
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 40px;text-align:center;position:relative;">
+
+    <!-- Grade de fundo suave -->
+    <div style="position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:28px 28px;opacity:.4;"></div>
+
+    <!-- Glow verde centro -->
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:400px;height:300px;background:radial-gradient(ellipse,rgba(26,58,31,.08) 0%,transparent 70%);pointer-events:none;"></div>
+
+    <div style="position:relative;z-index:1;">
+
+      <!-- Logo grande -->
+      <div style="display:inline-flex;align-items:flex-end;gap:5px;margin-bottom:10px;">
+        <svg width="52" height="52" viewBox="0 0 62 62" fill="none">
+          <line x1="10" y1="54" x2="10" y2="10" stroke="#1A3A1F" stroke-width="4.5" stroke-linecap="square"/>
+          <line x1="10" y1="10" x2="31" y2="38" stroke="#1A3A1F" stroke-width="4.5" stroke-linecap="square"/>
+          <line x1="31" y1="38" x2="52" y2="10" stroke="#1A3A1F" stroke-width="4.5" stroke-linecap="square"/>
+          <line x1="52" y1="10" x2="52" y2="54" stroke="#1A3A1F" stroke-width="4.5" stroke-linecap="square"/>
+        </svg>
+        <div style="width:6px;height:6px;background:var(--neon);margin-bottom:10px;flex-shrink:0;"></div>
+        <span style="font-family:'Rajdhani',sans-serif;font-weight:300;font-size:58.6px;color:var(--ink);line-height:1;letter-spacing:2px;">Co</span>
+      </div>
+
+      <div style="font-family:'Share Tech Mono',monospace;font-size:12.2px;color:var(--ink4);letter-spacing:4px;margin-bottom:28px;">// meirelles company — technology & ventures</div>
+
+      <!-- Linha divisora com equalizador -->
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px;justify-content:center;">
+        <div style="flex:1;max-width:80px;height:1px;background:var(--border2);"></div>
+        <div class="eq" style="height:20px;">
+          <div class="eq-bar" style="width:5px;height:40%;background:var(--border2);"></div>
+          <div class="eq-bar" style="width:5px;height:60%;background:var(--green-l);opacity:.5;"></div>
+          <div class="eq-bar" style="width:5px;height:90%;background:var(--green-m);opacity:.8;"></div>
+          <div class="eq-bar" style="width:5px;height:60%;background:var(--green-l);opacity:.5;"></div>
+          <div class="eq-bar" style="width:5px;height:90%;background:var(--green-m);opacity:.8;"></div>
+          <div class="eq-bar" style="width:5px;height:60%;background:var(--green-l);opacity:.5;"></div>
+          <div class="eq-bar" style="width:5px;height:40%;background:var(--border2);"></div>
+        </div>
+        <div style="flex:1;max-width:80px;height:1px;background:var(--border2);"></div>
+      </div>
+
+      <!-- Card proposta -->
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:6px;padding:30px 48px;display:inline-block;min-width:380px;position:relative;">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--green);border-radius:6px 6px 0 0;"></div>
+        <div style="position:absolute;bottom:0;left:40px;right:40px;height:1px;background:linear-gradient(90deg,transparent,var(--neon),transparent);"></div>
+
+        <div style="font-family:'Share Tech Mono',monospace;font-size:12.2px;color:var(--ink4);letter-spacing:3px;margin-bottom:10px;">proposta comercial</div>
+
+        <div style="font-family:'Orbitron',sans-serif;font-size:26.8px;font-weight:900;color:var(--ink);letter-spacing:1px;margin-bottom:4px;">GAMA Transportes</div>
+
+        <div style="font-size:14.0px;color:var(--ink3);margin-bottom:20px;letter-spacing:.5px;">Criação de Site Institucional Profissional</div>
+
+        <div style="height:1px;background:var(--border);margin-bottom:16px;"></div>
+
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div style="text-align:left;">
+            <div style="font-family:'Share Tech Mono',monospace;font-size:11.6px;color:var(--ink4);letter-spacing:2px;margin-bottom:3px;">EMITIDO POR</div>
+            <div style="font-size:14.0px;font-weight:700;color:var(--ink2);">WebFrequency / MeiCo</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-family:'Share Tech Mono',monospace;font-size:11.6px;color:var(--ink4);letter-spacing:2px;margin-bottom:3px;">DATA</div>
+            <div style="font-size:14.0px;font-weight:700;color:var(--ink2);">Abril / 2026</div>
+          </div>
+        </div>
+
+        <div style="margin-top:16px;text-align:center;">
+          <span style="display:inline-block;background:var(--green);color:var(--neon);font-family:'Share Tech Mono',monospace;font-size:11.6px;letter-spacing:2px;padding:4px 14px;border-radius:2px;">VALIDADE: 15 DIAS</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    <span class="footer-left">// webfrequency.com.br</span>
+    <span class="footer-right">uma empresa MeiCo</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PÁGINA 2 — DIAGNÓSTICO + SOLUÇÃO
+══════════════════════════════════════════ -->
+<div class="page">
+  <div class="header">
+    <div class="header-brand">
+      <svg width="20" height="20" viewBox="0 0 62 62" fill="none">
+        <line x1="10" y1="54" x2="10" y2="10" stroke="#F0F0F0" stroke-width="5" stroke-linecap="square"/>
+        <line x1="10" y1="10" x2="31" y2="38" stroke="#F0F0F0" stroke-width="5" stroke-linecap="square"/>
+        <line x1="31" y1="38" x2="52" y2="10" stroke="#F0F0F0" stroke-width="5" stroke-linecap="square"/>
+        <line x1="52" y1="10" x2="52" y2="54" stroke="#F0F0F0" stroke-width="5" stroke-linecap="square"/>
+      </svg>
+      <div class="brand-dot"></div>
+      <span class="brand-co">Co</span>
+    </div>
+    <div class="header-center">
+      <span class="header-wf-w">Web</span><span class="header-wf-f">Frequency</span>
+      <div class="header-sep"></div>
+      <span class="header-sub">GAMA Transportes</span>
     </div>
     <div class="header-page">02</div>
   </div>
 
   <div class="content">
 
-    <!-- Problema -->
-    <div style="margin-bottom:22px;">
-      <div class="section-label">// 01</div>
-      <div class="section-title">O problema atual</div>
-      <div class="section-divider"></div>
-
-      <div class="card card-red" style="padding:16px 16px 16px 20px;">
-        <div style="font-size:8px;font-weight:bold;color:#E24B4A;margin-bottom:10px;">Situacao identificada:</div>
-        <div class="bullet"><div class="bullet-dot"></div><div class="bullet-text"><span>Empresa invisivel no Google — concorrentes aparecem, a GAMA nao</span></div></div>
-        <div class="bullet"><div class="bullet-dot"></div><div class="bullet-text"><span>Sem credibilidade digital para fechar contratos com grandes clientes</span></div></div>
-        <div class="bullet"><div class="bullet-dot"></div><div class="bullet-text"><span>Nenhuma vitrine dos servicos, frota nova e 25 anos de historia</span></div></div>
-        <div class="bullet"><div class="bullet-dot"></div><div class="bullet-text"><span>Contato dificil — clientes nao sabem como ou onde encontrar</span></div></div>
-        <div class="bullet" style="margin-bottom:0;"><div class="bullet-dot"></div><div class="bullet-text"><span>Perfis informais nao transmitem o profissionalismo que a empresa tem</span></div></div>
-      </div>
+    <!-- DIAGNÓSTICO -->
+    <div class="sec">
+      <div class="sec-num">01</div>
+      <div class="sec-title">Diagnóstico</div>
+      <div class="sec-line"></div>
     </div>
 
-    <!-- Solução -->
-    <div style="margin-bottom:22px;">
-      <div class="section-label">// 02</div>
-      <div class="section-title">A solucao — site institucional profissional</div>
-      <div class="section-divider"></div>
-
-      <div class="grid-3">
-        <div class="card" style="border-top:3px solid var(--neon);text-align:center;padding:16px 12px;">
-          <div style="font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;color:var(--neon);margin-bottom:8px;">Visibilidade</div>
-          <div style="font-size:7.5px;color:var(--gray-l);line-height:1.7;">Aparecer no Google quando clientes buscam transporte na regiao</div>
+    <div class="card card-warn" style="margin-bottom:10px;background:#fff8f8;">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:11.6px;color:var(--red-soft);letter-spacing:2px;margin-bottom:10px;">// situação atual identificada</div>
+      <div class="g2" style="gap:8px;">
+        <div>
+          <div class="bullet"><div class="b-dot red"></div><div class="b-body"><strong>Invisível no Google</strong><span>Concorrentes aparecem, a GAMA não</span></div></div>
+          <div class="bullet"><div class="b-dot red"></div><div class="b-body"><strong>Sem vitrine digital</strong><span>25 anos de história sem presença online</span></div></div>
+          <div class="bullet"><div class="b-dot red"></div><div class="b-body"><strong>Frota nova sem destaque</strong><span>Diferencial competitivo invisível</span></div></div>
         </div>
-        <div class="card" style="border-top:3px solid var(--white);text-align:center;padding:16px 12px;">
-          <div style="font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;color:var(--white);margin-bottom:8px;">Credibilidade</div>
-          <div style="font-size:7.5px;color:var(--gray-l);line-height:1.7;">Site que transmite os 25 anos, a frota nova e os grandes clientes</div>
-        </div>
-        <div class="card" style="border-top:3px solid var(--gray-m);text-align:center;padding:16px 12px;">
-          <div style="font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;color:var(--gray-l);margin-bottom:8px;">Conversao</div>
-          <div style="font-size:7.5px;color:var(--gray-l);line-height:1.7;">Botao WhatsApp, formulario de contato e orcamento facil</div>
+        <div>
+          <div class="bullet"><div class="b-dot red"></div><div class="b-body"><strong>Contato difícil</strong><span>Clientes não sabem como chegar</span></div></div>
+          <div class="bullet"><div class="b-dot red"></div><div class="b-body"><strong>Sem prova social</strong><span>ViaRondon, prefeituras sem registro</span></div></div>
+          <div class="bullet"><div class="b-dot red"></div><div class="b-body"><strong>Credibilidade comprometida</strong><span>Empresa séria com presença informal</span></div></div>
         </div>
       </div>
     </div>
 
-    <!-- Entregáveis -->
-    <div>
-      <div class="section-label">// 03</div>
-      <div class="section-title">O que sera entregue</div>
-      <div class="section-divider"></div>
+    <div class="sp12"></div>
 
-      <div class="grid-2">
-        <div>
-          <div class="bullet"><div class="bullet-dot"></div><div class="bullet-text"><strong>Home page</strong><span>Apresentacao da empresa, frota e diferenciais</span></div></div>
-          <div class="bullet"><div class="bullet-dot"></div><div class="bullet-text"><strong>Pagina de Servicos</strong><span>Todos os servicos detalhados com imagens</span></div></div>
-          <div class="bullet"><div class="bullet-dot"></div><div class="bullet-text"><strong>Pagina Sobre</strong><span>25 anos de historia, equipe e missao</span></div></div>
-          <div class="bullet"><div class="bullet-dot"></div><div class="bullet-text"><strong>Pagina de Clientes</strong><span>Logos e depoimentos — ViaRondon, prefeituras</span></div></div>
-        </div>
-        <div>
-          <div class="bullet"><div class="bullet-dot"></div><div class="bullet-text"><strong>Pagina de Contato</strong><span>Formulario + WhatsApp + Google Maps</span></div></div>
-          <div class="bullet"><div class="bullet-dot"></div><div class="bullet-text"><strong>SEO configurado</strong><span>Aparece no Google Search Console</span></div></div>
-          <div class="bullet"><div class="bullet-dot"></div><div class="bullet-text"><strong>Responsivo mobile</strong><span>Funciona perfeitamente no celular</span></div></div>
-          <div class="bullet"><div class="bullet-dot"></div><div class="bullet-text"><strong>Hospedagem 1 ano</strong><span>Site no ar, dominio configurado</span></div></div>
-        </div>
+    <!-- SOLUÇÃO -->
+    <div class="sec">
+      <div class="sec-num">02</div>
+      <div class="sec-title">Solução proposta</div>
+      <div class="sec-line"></div>
+    </div>
+
+    <div class="g3" style="margin-bottom:10px;">
+      <div class="card" style="text-align:center;border-top:3px solid var(--green);">
+        <div style="font-family:'Orbitron',sans-serif;font-size:13.4px;font-weight:700;color:var(--green);margin-bottom:6px;">Visibilidade</div>
+        <div style="font-size:12.8px;color:var(--ink3);line-height:1.7;">Aparecer no Google quando clientes buscam transporte na região</div>
+      </div>
+      <div class="card" style="text-align:center;border-top:3px solid var(--green-m);">
+        <div style="font-family:'Orbitron',sans-serif;font-size:13.4px;font-weight:700;color:var(--green-m);margin-bottom:6px;">Credibilidade</div>
+        <div style="font-size:12.8px;color:var(--ink3);line-height:1.7;">Site que transmite 25 anos, frota nova e grandes clientes</div>
+      </div>
+      <div class="card" style="text-align:center;border-top:3px solid var(--green-l);">
+        <div style="font-family:'Orbitron',sans-serif;font-size:13.4px;font-weight:700;color:var(--green-l);margin-bottom:6px;">Conversão</div>
+        <div style="font-size:12.8px;color:var(--ink3);line-height:1.7;">WhatsApp, formulário e orçamento direto com um clique</div>
+      </div>
+    </div>
+
+    <div class="sp12"></div>
+
+    <!-- ENTREGÁVEIS -->
+    <div class="sec">
+      <div class="sec-num">03</div>
+      <div class="sec-title">O que será entregue</div>
+      <div class="sec-line"></div>
+    </div>
+
+    <div class="g2">
+      <div>
+        <div class="bullet"><div class="b-dot"></div><div class="b-body"><strong>Home page</strong><span>Empresa, frota e diferenciais em destaque</span></div></div>
+        <div class="bullet"><div class="b-dot"></div><div class="b-body"><strong>Página de Serviços</strong><span>Cada serviço com detalhe e imagens</span></div></div>
+        <div class="bullet"><div class="b-dot"></div><div class="b-body"><strong>Página Sobre</strong><span>25 anos de história, equipe e missão</span></div></div>
+        <div class="bullet"><div class="b-dot"></div><div class="b-body"><strong>Página de Clientes</strong><span>ViaRondon, prefeituras — prova social</span></div></div>
+      </div>
+      <div>
+        <div class="bullet"><div class="b-dot"></div><div class="b-body"><strong>Página de Contato</strong><span>Formulário + WhatsApp + Google Maps</span></div></div>
+        <div class="bullet"><div class="b-dot"></div><div class="b-body"><strong>SEO configurado</strong><span>Google Search Console + meta tags</span></div></div>
+        <div class="bullet"><div class="b-dot"></div><div class="b-body"><strong>100% responsivo</strong><span>Funciona perfeitamente no celular</span></div></div>
+        <div class="bullet"><div class="b-dot"></div><div class="b-body"><strong>Hospedagem 1 ano</strong><span>Site no ar, domínio configurado</span></div></div>
+      </div>
+    </div>
+
+    <div class="sp18"></div>
+
+    <!-- MÉTRICAS GAMA -->
+    <div class="sec">
+      <div class="sec-num">04</div>
+      <div class="sec-title">O que a GAMA tem para mostrar</div>
+      <div class="sec-line"></div>
+    </div>
+
+    <div class="g3">
+      <div class="metric">
+        <div class="metric-val">25+</div>
+        <div class="metric-label">anos de mercado</div>
+      </div>
+      <div class="metric">
+        <div class="metric-val">50+</div>
+        <div class="metric-label">clientes atendidos</div>
+      </div>
+      <div class="metric">
+        <div class="metric-val">24h</div>
+        <div class="metric-label">atendimento</div>
       </div>
     </div>
 
   </div>
-  <div class="footer">WebFrequency — Meirelles Web Solutions  |  uma empresa MeiCo</div>
+
+  <div class="footer">
+    <span class="footer-left">// proposta comercial — GAMA Transportes</span>
+    <span class="footer-right">02 / 04</span>
+  </div>
 </div>
 
 
-<!-- ══════════════════════════════════ -->
-<!-- PÁGINA 3 — PREÇOS                 -->
-<!-- ══════════════════════════════════ -->
+<!-- ══════════════════════════════════════════
+     PÁGINA 3 — INVESTIMENTO
+══════════════════════════════════════════ -->
 <div class="page">
   <div class="header">
-    <div class="header-logo">
-      <svg width="22" height="22" viewBox="0 0 62 62" fill="none">
+    <div class="header-brand">
+      <svg width="20" height="20" viewBox="0 0 62 62" fill="none">
         <line x1="10" y1="54" x2="10" y2="10" stroke="#F0F0F0" stroke-width="5" stroke-linecap="square"/>
         <line x1="10" y1="10" x2="31" y2="38" stroke="#F0F0F0" stroke-width="5" stroke-linecap="square"/>
         <line x1="31" y1="38" x2="52" y2="10" stroke="#F0F0F0" stroke-width="5" stroke-linecap="square"/>
         <line x1="52" y1="10" x2="52" y2="54" stroke="#F0F0F0" stroke-width="5" stroke-linecap="square"/>
       </svg>
-      <div class="neon-dot"></div>
-      <span class="co">Co</span>
+      <div class="brand-dot"></div>
+      <span class="brand-co">Co</span>
     </div>
-    <div class="header-sep"></div>
-    <div class="header-wf">
-      <div><span class="web">Web</span><span class="freq">Frequency</span></div>
-      <div class="sub">sites &amp; presença digital</div>
+    <div class="header-center">
+      <span class="header-wf-w">Web</span><span class="header-wf-f">Frequency</span>
+      <div class="header-sep"></div>
+      <span class="header-sub">GAMA Transportes</span>
     </div>
     <div class="header-page">03</div>
   </div>
 
   <div class="content">
 
-    <div class="section-label">// 04</div>
-    <div class="section-title">Investimento</div>
-    <div class="section-divider"></div>
-
-    <!-- Referência de mercado -->
-    <div class="card" style="text-align:center;padding:10px 16px;margin-bottom:16px;">
-      <div style="font-size:8px;color:var(--gray-m);margin-bottom:3px;">Agencias tradicionais cobram entre R$ 5.000 e R$ 15.000 por um site assim.</div>
-      <div style="font-size:8px;font-weight:bold;color:var(--neon);">Nos entregamos a mesma qualidade com condicoes especiais de lancamento.</div>
+    <div class="sec">
+      <div class="sec-num">05</div>
+      <div class="sec-title">Investimento</div>
+      <div class="sec-line"></div>
     </div>
 
-    <!-- Planos -->
-    <div class="grid-3" style="margin-bottom:14px;align-items:start;">
+    <!-- Referência mercado -->
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:10px 16px;text-align:center;margin-bottom:14px;">
+      <span style="font-size:12.8px;color:var(--ink3);">Agências tradicionais cobram entre </span>
+      <span style="font-size:12.8px;font-weight:700;color:var(--red-soft);">R$ 5.000 e R$ 15.000</span>
+      <span style="font-size:12.8px;color:var(--ink3);"> por um site assim.</span><br>
+      <span style="font-size:12.8px;font-weight:700;color:var(--green-m);">Entregamos a mesma qualidade com condições especiais de lançamento.</span>
+    </div>
 
-      <!-- Landing Page -->
-      <div class="plan-card">
-        <div class="plan-top"></div>
+    <!-- 3 planos -->
+    <div class="g3" style="align-items:start;margin-bottom:14px;">
+
+      <div class="plan">
+        <div class="plan-band"></div>
         <div class="plan-body">
           <div class="plan-name">Landing Page</div>
           <div class="plan-price">R$ 800</div>
-          <div class="plan-monthly">Manutencao: R$ 80/mes</div>
-          <div class="plan-divider"></div>
-          <div class="plan-item"><div class="plan-item-dot"></div>1 pagina (scroll unico)</div>
-          <div class="plan-item"><div class="plan-item-dot"></div>Design profissional</div>
-          <div class="plan-item"><div class="plan-item-dot"></div>Formulario de contato</div>
-          <div class="plan-item"><div class="plan-item-dot"></div>Botao WhatsApp</div>
-          <div class="plan-item"><div class="plan-item-dot"></div>SEO basico</div>
-          <div class="plan-item"><div class="plan-item-dot"></div>Hospedagem 1 ano</div>
-          <div class="plan-item"><div class="plan-item-dot"></div>Entrega: 7 dias</div>
+          <div class="plan-monthly">Manutenção: R$ 80/mês</div>
+          <div class="plan-div"></div>
+          <div class="plan-item"><div class="pi-dot"></div>1 página (scroll único)</div>
+          <div class="plan-item"><div class="pi-dot"></div>Design profissional</div>
+          <div class="plan-item"><div class="pi-dot"></div>Formulário de contato</div>
+          <div class="plan-item"><div class="pi-dot"></div>Botão WhatsApp</div>
+          <div class="plan-item"><div class="pi-dot"></div>SEO básico</div>
+          <div class="plan-item"><div class="pi-dot"></div>Hospedagem 1 ano</div>
+          <div class="plan-item"><div class="pi-dot"></div>Entrega em 7 dias</div>
         </div>
       </div>
 
-      <!-- Institucional — destaque -->
-      <div class="plan-card featured">
-        <div style="text-align:center;padding:4px 0 0;">
-          <span class="badge" style="font-size:6px;">RECOMENDADO</span>
+      <div class="plan featured">
+        <div style="text-align:center;padding:6px 0 0;background:var(--white);">
+          <span class="plan-badge">RECOMENDADO</span>
         </div>
-        <div class="plan-top"></div>
+        <div class="plan-band"></div>
         <div class="plan-body">
           <div class="plan-name">Site Institucional</div>
           <div class="plan-price">R$ 1.800</div>
-          <div class="plan-monthly">Manutencao: R$ 180/mes</div>
-          <div class="plan-divider"></div>
-          <div class="plan-item"><div class="plan-item-dot"></div>Ate 5 paginas completas</div>
-          <div class="plan-item"><div class="plan-item-dot"></div>Design exclusivo</div>
-          <div class="plan-item"><div class="plan-item-dot"></div>Galeria / portfolio</div>
-          <div class="plan-item"><div class="plan-item-dot"></div>Formulario avancado</div>
-          <div class="plan-item"><div class="plan-item-dot"></div>WhatsApp + Mapa</div>
-          <div class="plan-item"><div class="plan-item-dot"></div>SEO otimizado</div>
-          <div class="plan-item"><div class="plan-item-dot"></div>Hospedagem 1 ano</div>
-          <div class="plan-item"><div class="plan-item-dot"></div>Entrega: 10 dias</div>
+          <div class="plan-monthly">Manutenção: R$ 180/mês</div>
+          <div class="plan-div"></div>
+          <div class="plan-item"><div class="pi-dot"></div>Até 5 páginas completas</div>
+          <div class="plan-item"><div class="pi-dot"></div>Design exclusivo</div>
+          <div class="plan-item"><div class="pi-dot"></div>Galeria / portfólio</div>
+          <div class="plan-item"><div class="pi-dot"></div>Formulário avançado</div>
+          <div class="plan-item"><div class="pi-dot"></div>WhatsApp + Mapa</div>
+          <div class="plan-item"><div class="pi-dot"></div>SEO otimizado</div>
+          <div class="plan-item"><div class="pi-dot"></div>Hospedagem 1 ano</div>
+          <div class="plan-item"><div class="pi-dot"></div>Entrega em 10 dias</div>
         </div>
       </div>
 
-      <!-- Completo -->
-      <div class="plan-card">
-        <div class="plan-top"></div>
+      <div class="plan">
+        <div class="plan-band"></div>
         <div class="plan-body">
           <div class="plan-name">Site Completo</div>
           <div class="plan-price">R$ 3.200</div>
-          <div class="plan-monthly">Manutencao: R$ 320/mes</div>
-          <div class="plan-divider"></div>
-          <div class="plan-item"><div class="plan-item-dot"></div>Ate 8 paginas</div>
-          <div class="plan-item"><div class="plan-item-dot"></div>Blog / noticias</div>
-          <div class="plan-item"><div class="plan-item-dot"></div>Painel de edicao (CMS)</div>
-          <div class="plan-item"><div class="plan-item-dot"></div>Multiplos formularios</div>
-          <div class="plan-item"><div class="plan-item-dot"></div>Integracoes completas</div>
-          <div class="plan-item"><div class="plan-item-dot"></div>SEO avancado</div>
-          <div class="plan-item"><div class="plan-item-dot"></div>Hospedagem 1 ano</div>
-          <div class="plan-item"><div class="plan-item-dot"></div>Entrega: 15 dias</div>
+          <div class="plan-monthly">Manutenção: R$ 320/mês</div>
+          <div class="plan-div"></div>
+          <div class="plan-item"><div class="pi-dot"></div>Até 8 páginas</div>
+          <div class="plan-item"><div class="pi-dot"></div>Blog / notícias</div>
+          <div class="plan-item"><div class="pi-dot"></div>Painel de edição (CMS)</div>
+          <div class="plan-item"><div class="pi-dot"></div>Múltiplos formulários</div>
+          <div class="plan-item"><div class="pi-dot"></div>Integrações completas</div>
+          <div class="plan-item"><div class="pi-dot"></div>SEO avançado</div>
+          <div class="plan-item"><div class="pi-dot"></div>Hospedagem 1 ano</div>
+          <div class="plan-item"><div class="pi-dot"></div>Entrega em 15 dias</div>
         </div>
       </div>
 
     </div>
 
     <!-- Pagamento -->
-    <div class="card" style="border-left:3px solid var(--neon);padding:12px 16px;margin-bottom:12px;">
-      <div style="font-size:8.5px;font-weight:bold;color:var(--white);margin-bottom:4px;">Forma de pagamento:</div>
-      <div style="font-size:8px;color:var(--gray-l);margin-bottom:3px;">50% na assinatura  +  50% na entrega — PIX, transferencia ou boleto.</div>
-      <div style="font-size:7.5px;color:var(--gray-m);">Proposta valida por 15 dias a partir da data de emissao.</div>
+    <div class="card card-accent" style="margin-bottom:10px;">
+      <div style="font-weight:700;font-size:13.4px;color:var(--ink);margin-bottom:4px;">Forma de pagamento</div>
+      <div style="font-size:12.8px;color:var(--ink3);margin-bottom:2px;">50% na assinatura do contrato  +  50% na entrega do site.</div>
+      <div style="font-size:12.2px;color:var(--ink4);">PIX, transferência ou boleto. Proposta válida por 15 dias.</div>
     </div>
 
     <!-- ROI -->
-    <div class="card card-green" style="padding:14px 16px;">
-      <div style="font-size:8.5px;font-weight:bold;color:var(--neon);margin-bottom:6px;">Retorno sobre o investimento:</div>
-      <div style="font-size:8px;color:var(--white);line-height:1.7;margin-bottom:4px;">Um unico contrato de transporte paga o site. A GAMA atende ViaRondon e prefeituras — o site e a porta de entrada para que novos clientes desse porte encontrem e confiem na empresa.</div>
-      <div style="font-size:7.5px;color:var(--gray-m);">Voce nao esta comprando um site. Esta comprando credibilidade.</div>
+    <div class="card card-green" style="padding:16px 20px;">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:11.6px;color:var(--neon);letter-spacing:2px;margin-bottom:8px;">// retorno sobre investimento</div>
+      <div style="font-size:13.4px;color:rgba(255,255,255,.85);line-height:1.7;margin-bottom:6px;">Um único contrato de transporte paga o site inteiro. A GAMA já atende <strong style="color:#fff;">ViaRondon e prefeituras</strong> — o site é a porta de entrada para que novos clientes desse porte encontrem, pesquisem e confiem na empresa antes mesmo de ligar.</div>
+      <div style="font-size:12.8px;color:rgba(255,255,255,.4);font-style:italic;">Você não está comprando um site. Está comprando credibilidade.</div>
     </div>
 
   </div>
-  <div class="footer">WebFrequency — Meirelles Web Solutions  |  uma empresa MeiCo</div>
+
+  <div class="footer">
+    <span class="footer-left">// proposta comercial — GAMA Transportes</span>
+    <span class="footer-right">03 / 04</span>
+  </div>
 </div>
 
 
-<!-- ══════════════════════════════════ -->
-<!-- PÁGINA 4 — PROCESSO + CTA         -->
-<!-- ══════════════════════════════════ -->
+<!-- ══════════════════════════════════════════
+     PÁGINA 4 — PROCESSO + CTA
+══════════════════════════════════════════ -->
 <div class="page">
   <div class="header">
-    <div class="header-logo">
-      <svg width="22" height="22" viewBox="0 0 62 62" fill="none">
+    <div class="header-brand">
+      <svg width="20" height="20" viewBox="0 0 62 62" fill="none">
         <line x1="10" y1="54" x2="10" y2="10" stroke="#F0F0F0" stroke-width="5" stroke-linecap="square"/>
         <line x1="10" y1="10" x2="31" y2="38" stroke="#F0F0F0" stroke-width="5" stroke-linecap="square"/>
         <line x1="31" y1="38" x2="52" y2="10" stroke="#F0F0F0" stroke-width="5" stroke-linecap="square"/>
         <line x1="52" y1="10" x2="52" y2="54" stroke="#F0F0F0" stroke-width="5" stroke-linecap="square"/>
       </svg>
-      <div class="neon-dot"></div>
-      <span class="co">Co</span>
+      <div class="brand-dot"></div>
+      <span class="brand-co">Co</span>
     </div>
-    <div class="header-sep"></div>
-    <div class="header-wf">
-      <div><span class="web">Web</span><span class="freq">Frequency</span></div>
-      <div class="sub">sites &amp; presença digital</div>
+    <div class="header-center">
+      <span class="header-wf-w">Web</span><span class="header-wf-f">Frequency</span>
+      <div class="header-sep"></div>
+      <span class="header-sub">GAMA Transportes</span>
     </div>
     <div class="header-page">04</div>
   </div>
 
   <div class="content">
 
-    <div class="section-label">// 05</div>
-    <div class="section-title">Como funciona — do briefing a entrega</div>
-    <div class="section-divider"></div>
+    <div class="sec">
+      <div class="sec-num">06</div>
+      <div class="sec-title">Do briefing à entrega</div>
+      <div class="sec-line"></div>
+    </div>
 
-    <div class="grid-3" style="margin-bottom:24px;">
+    <div class="g3" style="margin-bottom:24px;">
 
-      <div class="step-card">
-        <div class="step-header">
-          <div class="step-num neon">01</div>
+      <div class="step">
+        <div class="step-head">
+          <div class="step-num sn-green">01</div>
           <div class="step-prazo">1–2 dias</div>
         </div>
         <div class="step-title">Briefing</div>
-        <div class="step-divider"></div>
-        <div class="step-desc">Reuniao para entender objetivos, publico e referencias visuais.</div>
+        <div class="step-div"></div>
+        <div class="step-desc">Reunião para entender objetivos, público-alvo e referências visuais.</div>
       </div>
 
-      <div class="step-card">
-        <div class="step-header">
-          <div class="step-num white">02</div>
+      <div class="step">
+        <div class="step-head">
+          <div class="step-num sn-light">02</div>
           <div class="step-prazo">1 dia</div>
         </div>
         <div class="step-title">Contrato</div>
-        <div class="step-divider"></div>
-        <div class="step-desc">Assinatura e pagamento de 50% de entrada para inicio.</div>
+        <div class="step-div"></div>
+        <div class="step-desc">Assinatura e pagamento de 50% de entrada para início imediato.</div>
       </div>
 
-      <div class="step-card">
-        <div class="step-header">
-          <div class="step-num gray">03</div>
+      <div class="step">
+        <div class="step-head">
+          <div class="step-num sn-light">03</div>
           <div class="step-prazo">3–5 dias</div>
         </div>
         <div class="step-title">Design</div>
-        <div class="step-divider"></div>
-        <div class="step-desc">Layout completo para aprovacao antes do desenvolvimento comecar.</div>
+        <div class="step-div"></div>
+        <div class="step-desc">Layout completo para aprovação antes do desenvolvimento começar.</div>
       </div>
 
-      <div class="step-card">
-        <div class="step-header">
-          <div class="step-num neon">04</div>
+      <div class="step">
+        <div class="step-head">
+          <div class="step-num sn-green">04</div>
           <div class="step-prazo">5–7 dias</div>
         </div>
         <div class="step-title">Desenvolvimento</div>
-        <div class="step-divider"></div>
-        <div class="step-desc">Codificacao, responsivo, formularios e botao WhatsApp.</div>
+        <div class="step-div"></div>
+        <div class="step-desc">Codificação, responsivo, formulários e botão WhatsApp.</div>
       </div>
 
-      <div class="step-card">
-        <div class="step-header">
-          <div class="step-num white">05</div>
+      <div class="step">
+        <div class="step-head">
+          <div class="step-num sn-light">05</div>
           <div class="step-prazo">2–3 dias</div>
         </div>
-        <div class="step-title">Revisao</div>
-        <div class="step-divider"></div>
-        <div class="step-desc">Ate 2 rodadas de ajustes sem custo adicional.</div>
+        <div class="step-title">Revisão</div>
+        <div class="step-div"></div>
+        <div class="step-desc">Até 2 rodadas de ajustes incluídas sem custo adicional.</div>
       </div>
 
-      <div class="step-card">
-        <div class="step-header">
-          <div class="step-num neon">06</div>
+      <div class="step">
+        <div class="step-head">
+          <div class="step-num sn-green">06</div>
           <div class="step-prazo">1 dia</div>
         </div>
         <div class="step-title">Entrega</div>
-        <div class="step-divider"></div>
-        <div class="step-desc">Site publicado, dominio configurado, acessos entregues.</div>
+        <div class="step-div"></div>
+        <div class="step-desc">Site publicado, domínio configurado, acessos entregues.</div>
       </div>
 
     </div>
 
     <!-- CTA -->
     <div class="cta">
-      <div class="cta-title">Pronto para dar o proximo passo?</div>
-      <div class="cta-sub">Entre em contato agora e garanta as condicoes especiais de lancamento da WebFrequency.</div>
-      <div class="cta-btn">Falar pelo WhatsApp →</div>
-      <div class="cta-contact">contato@webfrequency.com.br  |  webfrequency.com.br  |  uma empresa MeiCo</div>
+      <div class="cta-content">
+        <div class="cta-title">Pronto para dar o próximo passo?</div>
+        <div class="cta-sub">Entre em contato agora e garanta as condições<br>especiais de lançamento da WebFrequency.</div>
+        <div class="cta-btn">FALAR PELO WHATSAPP →</div>
+        <div class="cta-contact">contato@webfrequency.com.br  ·  webfrequency.com.br  ·  uma empresa MeiCo</div>
+      </div>
     </div>
 
   </div>
-  <div class="footer">WebFrequency — Meirelles Web Solutions  |  uma empresa MeiCo</div>
+
+  <div class="footer">
+    <span class="footer-left">// proposta comercial — GAMA Transportes</span>
+    <span class="footer-right">04 / 04</span>
+  </div>
 </div>
 
 </body>
